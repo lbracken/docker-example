@@ -10,7 +10,7 @@ This repo is a example multi-tiered application that runs as a series of Docker 
                                  +---------+     +---------+
 </pre>
 
-Dockerfiles to build these images are contained in this repo.  The images are also available on Docker Hub at https://registry.hub.docker.com/u/lbracken.
+Dockerfiles to build these images are contained in this repo.  The images are also available to pull from Docker Hub -- https://registry.hub.docker.com/u/lbracken.
 
 
 app1 & app2
