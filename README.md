@@ -58,8 +58,6 @@ You can then access the apps at the given IP and ports in your browser (ex: http
 
 Project TODOs
 -------------
-* Run a mongoDB container
-* Modify app2 to use mongoDB and link to its container
 * Add nginx container and link to app1/app2
 * Use Docker Compsoe or Fig to orchestrate it all together
 * Deploying to AWS container service
