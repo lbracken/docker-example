@@ -46,7 +46,7 @@ Build images for *app1* and *app2*...
 Start *app1*, *app2* containers....
 
 	$ docker run -d -P --name app1 lbracken/app1
-	$ docker run -d -P --name app2 --link mongo:db lbracken/app2	
+	$ docker run -d -P --name app2 --link mongo:db lbracken/app2
 
 To access the apps, you'll need to figure out which port Docker mapped it to.  While the app runs on port 8080 inside the container, on the host system the `-P` flag binds it to a random high port.  If you're on a Mac or Windows system with boot2docker, you'll also need to find the container's IP.  
 
