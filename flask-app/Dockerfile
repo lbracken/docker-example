@@ -15,7 +15,7 @@ COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
 
 # Create a place to deploy the application
-ENV APP_DIR=/var/www/app
+ENV APP_DIR /var/www/app
 RUN mkdir -p $APP_DIR
 WORKDIR $APP_DIR
 
