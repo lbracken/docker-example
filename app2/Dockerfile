@@ -1,5 +1,6 @@
-# Builds a Docker image to run app2.  The base image will handle adding
-# any application files and required dependencies to this image.
+# Builds a Docker image to run docker-example-app2.  The base image will handle
+# adding any application files and required dependencies to this image.
+
 FROM lbracken/flask-app
 MAINTAINER Levi Bracken <levi.bracken@gmail.com>
 

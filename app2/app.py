@@ -8,12 +8,12 @@ app = Flask(__name__)
 @app.route("/")
 def home():
 
-    # Docker will set the address of the linked mongoDB container in the following
-    # environmental variable.  We already know the port that mongoDB is exposed on.
+    # Docker will set the address of the linked MongoDB container in the following
+    # environmental variable.  We already know the port that MongoDB is exposed on.
     db_host = str(os.environ["DB_PORT_27017_TCP_ADDR"])
     db_port = 27017
 
-    # Get a connection to mongoDB, then get the collection 'webStats' from the
+    # Get a connection to MongoDB, then get the collection 'webStats' from the
     # database 'app2Db'.
     client = pymongo.MongoClient(db_host, db_port)
     collection = client["app2Db"]["webStats"]
