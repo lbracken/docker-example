@@ -18,19 +18,9 @@ Working from right to left...
 MongoDB
 ---------
 
-Docker Hub provides and maintains base images for many popular applications, including MongoDB.  So we can just pull down the latest *mongo* image from Docker Hub.
+Docker Hub provides and maintains base images for many popular applications, including MongoDB.  So we can just pull down the latest *mongo* image from Docker Hub and start it up.  By default all data is stored inside this container.
 
-	$ docker pull mongo
-
-By default all data is stored inside this container.  However, using Docker volumes it's possible to store data on the host system or in another data specific container.  If on a Linux host, just create a directory to store this data.  If on a Mac or Windows host and using boot2docker, then you'll need to create this directory inside the boot2docker VM.
-
-	$ boot2docker ssh
-	$ mkdir -p /var/docker-volumes/mongo-data
-	$ exit
-
-Now we can start the *mongo* container. The `-v` flag maps the directory just created to the directory */data/db* inside the container.
-
-    $ docker run -d --name mongo -v /var/docker-volumes/mongo-data:/data/db mongo --noprealloc --smallfiles
+    $ docker run -d --name mongo mongo
 
 For more information on this image see: https://registry.hub.docker.com/_/mongo/
 
