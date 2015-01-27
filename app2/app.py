@@ -26,7 +26,7 @@ def home():
 
     return """<h1>This is app2!</h1>
               <p>Hit Count: %d </p>
-              <img src='/static/images/flask-badge-2.png'/>""" % (hit_count)
+              <img src='static/images/flask-badge-2.png'/>""" % (hit_count)
 
 
 if __name__ == '__main__':
