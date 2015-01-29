@@ -36,13 +36,13 @@ To build the base image...
 
 Build images for *app1* and *app2* from this base image...
 
-	$ docker build -t="app1" app1
-	$ docker build -t="app2" app2
+	$ docker build -t="lbracken/docker-example-app1" app1
+	$ docker build -t="lbracken/docker-example-app2" app2
 
 Start *app1* and *app2* containers...  (notice we link *app2* to our running *mongo* container)
 
-	$ docker run -d -P --name app1 app1
-	$ docker run -d -P --name app2 --link mongo:db app2
+	$ docker run -d -P --name app1 lbracken/docker-example-app1
+	$ docker run -d -P --name app2 --link mongo:db lbracken/docker-example-app2
 
 The next logic step is to access and test out *app1* and *app2*. The quick way to do that is to jump ahead and start up the nginx container. Right now we can't just access them with a browser.  The reason is that by default we've asked uWSGI to run with the `socket` option which means it's just speaking the uwsig protocol. This is ideal for performance when we have a uwsgi capable webserver in front of it (like nginx). If we want the uWSGI server to response to HTTP requests, then we need to run with the `http` option.  See the the Dockerfiles for more details on how to switch this. For more info see: https://uwsgi-docs.readthedocs.org/en/latest/WSGIquickstart.html.
 
