@@ -17,7 +17,7 @@ Working from right to left...
 
 MongoDB
 ---------
-Docker Hub provides and maintains base images for many popular applications, including MongoDB. So we can just pull down the latest *mongo* image from Docker Hub and start it up. By default all data is stored inside this container.
+Docker Hub provides and maintains official images for many popular applications, including MongoDB. So we can just pull down the latest *mongo* image from Docker Hub and start it up. By default all data is stored inside this container.
 
     $ docker run -d --name mongo mongo
 
@@ -49,11 +49,39 @@ The next logic step is to access and test out *app1* and *app2*. The quick way t
 
 nginx
 -------------
-Coming soon...
+Docker Hub also provides an official image for nginx, so we'll start from that. We just need the image to use our custom nginx config files. One option is to mount the config files via a Docker volume. But let's just build our own nginx image, extending form the official image, to keep everything self contained and portable.
+
+So what's in this custom nginx config? The primary config file, `nginx.conf`, provides basic info about how nginx should run. We haven't changed much here, though certain deployments may need to. The second config file, `docker-example.nginx.conf`, is more interesting. It contains configuration specific to our application. In this file you'll find some location directives that tell nginx how to route requests to certain URLs. For example...
+
+    location /app1/ {
+        include uwsgi_params;
+        uwsgi_pass app1:5000;
+        uwsgi_intercept_errors on;        
+        uwsgi_param SCRIPT_NAME /app1;
+        uwsgi_modifier1 30;
+    }
+
+    location /app1/static {
+        alias /var/www/app1-static;
+    }
+
+The first location directive will route all requests with the URL path `/app1/` to a uwsgi server on the container *app1* on the port 5000. (If were running *app1* with the uWSGI `http` option instead of the `socket` option, we'd need to use `proxy_pass` here, but `uwsgi_pass` is more efficient). The second location directive will allow nginx to directly serve all resources on the URL path `/app1/static/`. This is more efficient than having nginx ask our uWSGI server for static resources, and why we took the trouble of exposing a volume on *app1* and *app2* and mount it in our *nginx* container.
+
+For more on nginx configuration see http://wiki.nginx.org/Configuration and http://uwsgi-docs.readthedocs.org/en/latest/Nginx.html.
+
+To build our *nginx* image...
+
+	$ docker build -t="lbracken/docker-example-nginx" nginx
+
+Start our *nginx* container.  We link it to the *app1* and *app2* containers, and also mount volumes in these containers which contain static resources that nginx will directly serve up.
+
+	$ docker run -d -p 80:80 --name nginx --link app1:app1 --volumes-from app1:ro --link app2:app2 --volumes-from app2:ro lbracken/docker-example-nginx 
+
+We can now access our *nginx* container and *app1* and *app2* with a browser by going to http://localhost, http://localhost/app1 and http://localhost/app2.  If using boot2docker, you'll need to access the boot2docker IP instead of `localhost`.  To find that IP...
+
+	$ boot2docker ip
 
 
-Project TODOs
--------------
-* Add nginx container and link to app1/app2
-* Use Docker Compsoe / Fig to orchestrate it all together
-* Deploying to AWS container service
+Running all containers on AWS
+-----------------------------
+TODO: Walk through running this multi container application in the new AWS EC2 Container Service (in preview).
