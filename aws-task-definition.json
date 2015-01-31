@@ -1,0 +1,25 @@
+[
+    {
+        "name": "mongo",
+        "image": "mongo",
+        "cpu": 256,
+        "memory": 512,
+        "essential": true
+    },
+    {
+        "name": "quick-test-2",
+        "image": "lbracken/quick-test-2",
+        "links": [
+            "mongo:db"
+        ],
+        "portMappings": [
+            {
+                "containerPort": 5000,
+                "hostPort": 80
+            }
+        ],
+        "cpu": 128,
+        "memory": 64,
+        "essential": true
+    }
+]

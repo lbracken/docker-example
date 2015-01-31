@@ -82,6 +82,30 @@ We can now access our *nginx* container and *app1* and *app2* with a browser by 
 	$ boot2docker ip
 
 
-Running all containers on AWS
------------------------------
-TODO: Walk through running this multi container application in the new AWS EC2 Container Service (in preview).
+Running all containers on AWS Container Service
+------------------------------------------------
+AWS has rolled out a new container service (ECS) that will allow you to run and manage a set of Docker containers that run on EC2 instances.  The service is currently in preview and requires an invite.  It looks promising, however, the preview currently doesn't support volumes (see: https://twitter.com/mndoci/status/549647072358440964), so it can't run this docker-example project.
+
+Below are notes for registering and running a task definition that includes a *monog* container and a modified form of *app2* (modified form just flipped the commented out CMD line to run uWSIG with http instead of socket and then built with image name quick-test-2). See `aws-task-definition.json` in this repo as well.  Once volumes are supported I'll update this section to run docker-example.
+
+AWS Container Service Dev Guide: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html
+
+To register this task definition...
+
+  $ aws ecs register-task-definition --family docker-example --container-definitions file://aws-task-definition.json
+
+To see the list of task definitions...
+
+  $ aws ecs list-task-definitions
+
+To start this task...
+
+  $ aws ecs run-task --task-definition docker-example:1 --count 1
+
+See waht tasks are running...
+
+  $ aws ecs list-tasks
+
+To get more information about the running task...
+
+  $ aws ecs describe-tasks --task <task_UUID>
