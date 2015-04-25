@@ -1,25 +1,83 @@
-[
+{
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:793100814358:task-definition/docker-example:3",
+  "revision": 3,
+  "containerDefinitions": [
     {
-        "name": "mongo",
-        "image": "mongo",
-        "cpu": 256,
-        "memory": 512,
-        "essential": true
+      "volumesFrom": [],
+      "portMappings": [],
+      "command": [],
+      "environment": [],
+      "essential": true,
+      "entryPoint": [],
+      "links": [],
+      "mountPoints": [],
+      "memory": 512,
+      "name": "mongo",
+      "cpu": 256,
+      "image": "mongo"
     },
     {
-        "name": "quick-test-2",
-        "image": "lbracken/quick-test-2",
-        "links": [
-            "mongo:db"
-        ],
-        "portMappings": [
-            {
-                "containerPort": 5000,
-                "hostPort": 80
-            }
-        ],
-        "cpu": 128,
-        "memory": 64,
-        "essential": true
+      "volumesFrom": [],
+      "portMappings": [],
+      "command": [],
+      "environment": [],
+      "essential": true,
+      "entryPoint": [],
+      "links": [],
+      "mountPoints": [],
+      "memory": 64,
+      "name": "app1",
+      "cpu": 256,
+      "image": "lbracken/docker-example-app1"
+    },
+    {
+      "volumesFrom": [],
+      "portMappings": [],
+      "command": [],
+      "environment": [],
+      "essential": true,
+      "entryPoint": [],
+      "links": [
+        "mongo:db"
+      ],
+      "mountPoints": [],
+      "memory": 64,
+      "name": "app2",
+      "cpu": 256,
+      "image": "lbracken/docker-example-app2"
+    },
+    {
+      "volumesFrom": [
+        {
+          "readOnly": true,
+          "sourceContainer": "app1"
+        },
+        {
+          "readOnly": true,
+          "sourceContainer": "app2"
+        }
+      ],
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "command": [],
+      "environment": [],
+      "essential": true,
+      "entryPoint": [],
+      "links": [
+        "app1:app1",
+        "app2:app2"
+      ],
+      "mountPoints": [],
+      "memory": 128,
+      "name": "nginx",
+      "cpu": 256,
+      "image": "lbracken/docker-example-nginx"
     }
-]
+  ],
+  "volumes": [],
+  "family": "docker-example"
+}
